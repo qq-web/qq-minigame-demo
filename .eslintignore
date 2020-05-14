@@ -1,0 +1,6 @@
+/vendor
+/node_modules
+/sub/engine.js
+/sub/render/*.js
+/js/libs/*.js
+/js/libs/crypto-js/*.js

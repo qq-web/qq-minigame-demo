@@ -1,0 +1,53 @@
+{
+	"description": "项目配置文件",
+	"setting": {
+		"urlCheck": true,
+		"es6": true,
+		"postcss": false,
+		"minified": true,
+		"newFeature": true,
+		"remoteDebugLogEnable": false,
+		"useAlphaLib": true,
+		"nodeModules": true,
+		"autoAudits": true,
+		"uglifyFileName": true,
+		"sourcemapDisabled": true,
+		"uploadWithSourceMap": true
+	},
+	"jsserverRoot": "jsserver/",
+	"compileType": "game",
+	"libVersion": "1.9.94",
+	"projectname": "minigame",
+	"qqappid": "1110325033",
+	"qqLibVersion": "1.13.0",
+	"scripts": {
+		"beforeCompile": "",
+		"beforePreview": "",
+		"beforeUpload": ""
+	},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": [],
+			"current": 0
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"gamePlugin": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": []
+		}
+	}
+}

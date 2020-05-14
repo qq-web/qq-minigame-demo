@@ -1,0 +1,34 @@
+{
+  "name": "minigame-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@git.code.oa.com:QQMiniApp/minigame-demo.git",
+  "author": "fengzhong <fengzhong@tencent.com>",
+  "license": "MIT",
+  "scripts": {
+    "prettier": "prettier --write . !**/node_modules/**",
+    "lint": "eslint --fix --ignore-path .eslintignore  ."
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.14.2",
+    "husky": "^2.5.0",
+    "lint-staged": "^7.0.0",
+    "prettier": "^1.18.2"
+  },
+  "lint-staged": {
+    "./**/*.js": [
+      "prettier --write",
+      "eslint --fix --ignore-path .eslintignore",
+      "git add"
+    ]
+  }
+}
