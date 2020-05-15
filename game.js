@@ -42,7 +42,7 @@ const loadingFn = pmgressBar(PIXI, app, {
 
 PIXI.loader
   .add([
-    "images/fileSystemManager.png",
+    "images/storage-fileSystem.png",
     "images/rendering.png",
     "images/network.png",
     "images/media.png",
@@ -51,7 +51,6 @@ PIXI.loader
     "images/stop.png",
     "images/worker.png",
     "images/star.png",
-    // "images/customerService.png",
     "images/facility.png",
     "images/right.png",
     "images/interface.png",

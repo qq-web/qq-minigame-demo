@@ -1,52 +1,27 @@
-import { pText, pLine, pImg, pGoBackBtn } from "../../../libs/component/index";
+import fixedTemplate from "../../../libs/template/fixed";
 
 module.exports = function(PIXI, app, obj, callBack) {
   const container = new PIXI.Container();
-  const goBack = pGoBackBtn(PIXI, "delPage", () => {
+  const { goBack, title, apiName, underline, logo } = fixedTemplate(PIXI, {
+    obj,
+    title: "视频",
+    apiName: "video"
+  });
+  const bg = new PIXI.Graphics();
+  container.addChild(bg);
+  bg.beginFill(0xf5f6fa)
+    .drawRoundedRect(
+      0,
+      underline.y + 60 * PIXI.ratio,
+      app.renderer.view.width,
+      app.renderer.view.height
+    )
+    .endFill();
+  goBack.callBack = () => {
     callBack({
       status: "destroy"
     });
-  });
-  const title = pText(PIXI, {
-    content: "视频",
-    fontSize: 36 * PIXI.ratio,
-    fill: 0x353535,
-    y: 52 * Math.ceil(PIXI.ratio) + 22 * PIXI.ratio,
-    relative_middle: { containerWidth: obj.width }
-  });
-  const apiName = pText(PIXI, {
-    content: "video",
-    fontSize: 32 * PIXI.ratio,
-    fill: 0xbebebe,
-    y: title.height + title.y + 78 * PIXI.ratio,
-    relative_middle: { containerWidth: obj.width }
-  });
-  const underline = pLine(
-    PIXI,
-    {
-      width: PIXI.ratio | 0,
-      color: 0xd8d8d8
-    },
-    [
-      (obj.width - 150 * PIXI.ratio) / 2,
-      apiName.y + apiName.height + 23 * PIXI.ratio
-    ],
-    [150 * PIXI.ratio, 0]
-  );
-  const logo = pImg(PIXI, {
-    width: 36 * PIXI.ratio,
-    height: 36 * PIXI.ratio,
-    x: 294 * PIXI.ratio,
-    y: obj.height - 66 * PIXI.ratio,
-    src: "images/logo.png"
-  });
-  const logoName = pText(PIXI, {
-    content: "小游戏示例",
-    fontSize: 26 * PIXI.ratio,
-    fill: 0x576b95,
-    y: (obj.height - 62 * PIXI.ratio) | 0,
-    relative_middle: { point: 404 * PIXI.ratio }
-  });
+  };
 
   // 创建视频 开始
   callBack({
@@ -62,7 +37,7 @@ module.exports = function(PIXI, app, obj, callBack) {
   });
   // 创建视频 结束
 
-  container.addChild(goBack, title, apiName, underline, logo, logoName);
+  container.addChild(goBack, title, apiName, underline, logo);
 
   app.stage.addChild(container);
 

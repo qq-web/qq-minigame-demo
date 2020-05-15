@@ -1,18 +1,27 @@
-import view from './view';
-import show from '../../../libs/show';
+import view from "./view";
+
 module.exports = function(PIXI, app, obj) {
-    return view(PIXI, app, obj, res => {
-        let { status, drawFn, Img } = res;
-        switch (status) {
-            case 'createImage':
-                Img = qq.createImage();
-                show.Modal(`已创建成功，确认后进行加载图片`, '创建成功', () => {
-                    Img.src = 'images/weapp.jpg';
-                    Img.onload = () => {
-                        drawFn(Img);
-                    };
-                });
-                break;
-        }
-    });
+  return view(PIXI, app, obj, res => {
+    const { status, drawFn } = res;
+    let img;
+    switch (status) {
+      case "createImage":
+        img = qq.createImage();
+        qq.showModal({
+          content: `已创建成功，确认后进行加载图片`,
+          title: "创建成功",
+          success(response) {
+            if (response.confirm) {
+              img.src = "images/someImage.png";
+              img.onload = () => {
+                drawFn(img);
+              };
+            }
+          }
+        });
+        break;
+      default:
+        break;
+    }
+  });
 };

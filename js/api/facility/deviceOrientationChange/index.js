@@ -1,23 +1,29 @@
-import view from './view';
-import show from '../../../libs/show';
+import view from "./view";
+
 module.exports = function(PIXI, app, obj) {
-    return view(PIXI, app, obj, data => {
-        let { status, drawFn } = data;
-        switch (status) {
-            case 'onDeviceOrientationChange':
-                // 监听横竖屏切换事件
-                qq.onDeviceOrientationChange((res) => {
-                    console.log(res);
+  return view(PIXI, app, obj, data => {
+    const { status, drawFn } = data;
+    switch (status) {
+      case "onDeviceOrientationChange":
+        // 监听横竖屏切换事件
+        qq.onDeviceOrientationChange(res => {
+          console.log(res);
 
-                    show.Toast('触发成功', 'success', 800);
+          qq.showToast({
+            title: "触发成功",
+            icon: "success",
+            duration: 800
+          });
 
-                    drawFn(); //绘制UI
-                });
-                break;
-            case 'offDeviceOrientationChange':
-                // 取消监听横竖屏切换事件
-                qq.offDeviceOrientationChange();
-                break;
-        }
-    });
+          drawFn(); // 绘制UI
+        });
+        break;
+      case "offDeviceOrientationChange":
+        // 取消监听横竖屏切换事件
+        qq.offDeviceOrientationChange();
+        break;
+      default:
+        break;
+    }
+  });
 };

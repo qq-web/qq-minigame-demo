@@ -127,8 +127,7 @@ const signIn = [
             path: "abilityBasic/setting/index"
           }
         ]
-      }
-      /* 
+      },
       {
         label: "界面",
         name: "interface",
@@ -286,20 +285,80 @@ const signIn = [
             label: "音频",
             name: "voiceFrequency",
             path: "media/voiceFrequency/index"
+          },
+          {
+            label: "录音",
+            name: "voice",
+            path: "media/voice/index"
           }
         ]
       },
       {
         label: "数据与文件系统",
-        name: "fileSystemManager",
-        path: "fileSystemManager/index"
+        name: "storage-fileSystem",
+        children: [
+          {
+            label: "创建/删除目录",
+            name: "dir",
+            path: "storage-fileSystem/dir/index"
+          },
+          {
+            label: "判断文件/目录是否存在",
+            name: "access",
+            path: "storage-fileSystem/access/index"
+          },
+          {
+            label: "重命名",
+            name: "rename",
+            path: "storage-fileSystem/rename/index"
+          },
+          {
+            label: "保存临时文件到本地",
+            name: "saveFile",
+            path: "storage-fileSystem/saveFile/index"
+          },
+          {
+            label: "查看目录内容",
+            name: "readdir",
+            path: "storage-fileSystem/readdir/index"
+          },
+          {
+            label: "操作文件",
+            name: "operationFile",
+            path: "storage-fileSystem/operationFile/index"
+          },
+          {
+            label: "获取文件信息",
+            name: "getFileInfo",
+            path: "storage-fileSystem/getFileInfo/index"
+          },
+          {
+            label: "判断文件路径是否是目录",
+            name: "stat",
+            path: "storage-fileSystem/stat/index"
+          },
+          {
+            label: "解压文件",
+            name: "unzip",
+            path: "storage-fileSystem/unzip/index"
+          },
+          {
+            label: "本地缓存文件",
+            name: "savedFile",
+            path: "storage-fileSystem/savedFile/index"
+          },
+          {
+            label: "数据缓存",
+            name: "storage",
+            path: "storage-fileSystem/storage/index"
+          }
+        ]
       },
       {
         label: "多线程",
         name: "worker",
         path: "worker/index"
       }
- */
     ]
   }
 ];
@@ -360,6 +419,7 @@ function router(PIXI, app, parameter) {
         treePage[name].page.visible = false;
         treePage[newPage].page.visible = true;
       } catch (e) {
+        console.error(e);
         this.treeView.pop();
         qq.showModal({
           content: "你的QQ版本过低，无法演示该功能！",

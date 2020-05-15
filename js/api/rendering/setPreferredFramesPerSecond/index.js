@@ -1,12 +1,15 @@
-import view from './view';
+import view from "./view";
+
 module.exports = function(PIXI, app, obj) {
-    return view(PIXI, app, obj, res => {
-        let { status,value } = res;
-        switch (status) {
-            case 'setPreferredFramesPerSecond':
-                // 设置渲染帧率
-                qq.setPreferredFramesPerSecond(value);
-                break;
-        }
-    });
+  return view(PIXI, app, obj, res => {
+    const { status, value } = res;
+    switch (status) {
+      case "setPreferredFramesPerSecond":
+        // 设置渲染帧率
+        qq.setPreferredFramesPerSecond(value);
+        break;
+      default:
+        break;
+    }
+  });
 };

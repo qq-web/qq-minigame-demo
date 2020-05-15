@@ -1,95 +1,62 @@
-import {
-  pText,
-  pLine,
-  pBox,
-  pImg,
-  pGoBackBtn
-} from "../../../libs/component/index";
+import { pBox, pLine, pText, pImg } from "../../../libs/component/index";
+import fixedTemplate from "../../../libs/template/fixed";
 
 module.exports = function(PIXI, app, obj, callBack) {
   const container = new PIXI.Container();
-  const goBack = pGoBackBtn(PIXI, "delPage");
-  const title = pText(PIXI, {
-    content: "上传文件",
-    fontSize: 36 * PIXI.ratio,
-    fill: 0x353535,
-    y: 52 * Math.ceil(PIXI.ratio) + 22 * PIXI.ratio,
-    relative_middle: { containerWidth: obj.width }
+  const { goBack, title, apiName, underline, logo } = fixedTemplate(PIXI, {
+    obj,
+    title: "上传文件",
+    apiName: "uploadFile"
   });
-  const apiName = pText(PIXI, {
-    content: "uploadFile",
-    fontSize: 32 * PIXI.ratio,
-    fill: 0xbebebe,
-    y: title.height + title.y + 78 * PIXI.ratio,
-    relative_middle: { containerWidth: obj.width }
-  });
-  const underline = pLine(
-    PIXI,
-    {
-      width: PIXI.ratio | 0,
-      color: 0xd8d8d8
-    },
-    [
-      (obj.width - 150 * PIXI.ratio) / 2,
-      apiName.y + apiName.height + 23 * PIXI.ratio
-    ],
-    [150 * PIXI.ratio, 0]
-  );
+  const bg = new PIXI.Graphics();
+  container.addChild(bg);
+  bg.beginFill(0xf5f6fa)
+    .drawRoundedRect(
+      0,
+      underline.y + 60 * PIXI.ratio,
+      app.renderer.view.width,
+      app.renderer.view.height
+    )
+    .endFill();
+
   const box = pBox(PIXI, {
-    y: underline.y + underline.height + 150 * PIXI.ratio,
-    height: obj.width / 2,
-    border: {
-      width: PIXI.ratio | 0,
-      color: 0x999999
-    }
+    y: underline.y + underline.height + 80 * PIXI.ratio,
+    height: 296
   });
-  const box_child = new PIXI.Container();
-  const logo = pImg(PIXI, {
-    width: 36 * PIXI.ratio,
-    height: 36 * PIXI.ratio,
-    x: 294 * PIXI.ratio,
-    y: obj.height - 66 * PIXI.ratio,
-    src: "images/logo.png"
-  });
-  const logoName = pText(PIXI, {
-    content: "小游戏示例",
-    fontSize: 26 * PIXI.ratio,
-    fill: 0x576b95,
-    y: (obj.height - 62 * PIXI.ratio) | 0,
-    relative_middle: { point: 404 * PIXI.ratio }
-  });
+  const boxChild = new PIXI.Container();
+
   let sprite = null;
 
-  box_child.y = -20 * PIXI.ratio;
-  box_child.addChild(
+  // boxChild.y = -20 * PIXI.ratio;
+  boxChild.addChild(
     pLine(
       PIXI,
       {
         width: 4 * PIXI.ratio,
-        color: 0x999999
+        color: 0xb0b3bf
       },
-      [(obj.width - obj.width / 8) / 2, box.height / 2],
-      [obj.width / 8, 0]
+      [335 * PIXI.ratio, 119 * PIXI.ratio],
+      [80 * PIXI.ratio, 0]
     ),
     pLine(
       PIXI,
       {
         width: 4 * PIXI.ratio,
-        color: 0x999999
+        color: 0xb0b3bf
       },
-      [obj.width / 2, (box.height - obj.width / 8) / 2],
-      [0, obj.width / 8]
+      [375 * PIXI.ratio, 81 * PIXI.ratio],
+      [0, 80 * PIXI.ratio]
     ),
     pText(PIXI, {
       content: "选择图片",
       fontSize: 28 * PIXI.ratio,
-      fill: 0x999999,
-      y: box.height - obj.width / 6,
+      fill: 0xb0b3bf,
+      y: 181 * PIXI.ratio,
       relative_middle: { containerWidth: box.width }
     })
   );
 
-  box.addChild(box_child);
+  box.addChild(boxChild);
   box.onClickFn(() => {
     box.interactive = false;
     qq.chooseImage({
@@ -102,22 +69,23 @@ module.exports = function(PIXI, app, obj, callBack) {
         callBack(imageSrc, bool => {
           if (bool) {
             PIXI.loader.add(imageSrc).load(() => {
-              let width = void 0;
-              let height = void 0;
+              let width;
+              let height;
               sprite = pImg(PIXI, {
                 src: imageSrc,
-                is_PIXI_loader: true
+                is_PIXI_loader: true,
+                y: -PIXI.ratio | 0
               });
               if (sprite.width > sprite.height) {
-                width = box.width;
+                ({ width } = box);
                 height = (width * sprite.height) / sprite.width;
                 if (box.height / height < 1) {
                   width = (box.height * width) / height;
-                  height = box.height;
+                  height = box.height - ~~PIXI.ratio * 3;
                 }
               } else {
                 width = (box.height * sprite.width) / sprite.height;
-                height = box.height;
+                height = box.height - ~~PIXI.ratio * 3;
               }
               sprite.width = width;
               sprite.height = height;
@@ -127,7 +95,7 @@ module.exports = function(PIXI, app, obj, callBack) {
                   containerHeight: box.height
                 }
               });
-              box_child.visible = false;
+              boxChild.visible = false;
               box.addChild(sprite);
             });
             return;
@@ -142,7 +110,7 @@ module.exports = function(PIXI, app, obj, callBack) {
     });
   });
 
-  container.addChild(goBack, title, apiName, underline, box, logo, logoName);
+  container.addChild(goBack, title, apiName, underline, box, logo);
 
   app.stage.addChild(container);
 

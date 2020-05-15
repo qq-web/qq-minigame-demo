@@ -1,4 +1,17 @@
 import * as TweenMax from "./TweenMax.min";
+
+const HEIGHT_CONSTANST = {
+  TAB_BAR: {
+    HEIGHT: 54
+  },
+  TOP_BAR: {
+    HEIGHT: 64
+  },
+  IPHONEX_TOP_BAR: {
+    HEIGHT: 88
+  }
+};
+
 function pixiScroll(PIXI, app, property) {
   function ScrollContainer() {
     this.po = new PIXI.Container();
@@ -205,7 +218,7 @@ function pixiScroll(PIXI, app, property) {
                 sc.items[lastOne].po.y + sc.items[lastOne].drawHeight;
             }
           } else {
-            if (sc.items[lastOne].child.po.visible) {
+            if (sc.items[lastOne].child && sc.items[lastOne].child.po.visible) {
               sc.itemHeight =
                 sc.items[lastOne].po.y +
                 sc.items[lastOne].drawHeight -
@@ -413,18 +426,33 @@ function pixiScroll(PIXI, app, property) {
   }
   function Title() {
     this.box = new PIXI.Graphics();
-    this.box
-      .beginFill(0xffffff)
-      .drawRect(0, 0, property.width, 132 * PIXI.ratio)
-      .endFill();
+    const { model, statusBarHeight } = qq.getSystemInfoSync();
+    const titleBarPosition =
+      model == "iPhone X"
+        ? HEIGHT_CONSTANST.IPHONEX_TOP_BAR.HEIGHT
+        : HEIGHT_CONSTANST.TOP_BAR.HEIGHT;
+    const navBarHeight = HEIGHT_CONSTANST.TAB_BAR.HEIGHT;
+    console.log(statusBarHeight, titleBarPosition, navBarHeight);
+    // this.box
+    //   .beginFill(0xffffff)
+    //   .drawRect(0, 0, property.width, 132 * PIXI.ratio)
+    //   .endFill();
+    //  this.box
+    // .beginFill(0xff)
+    // .drawRect(0, 0  * PIXI.ratio, property.width, ( statusBarHeight/2 + titleBarPosition ) * PIXI.ratio)
+    // .beginFill(0xff0000)
+    // .drawRect(0, (statusBarHeight/2 + titleBarPosition )  * PIXI.ratio, property.width, ( navBarHeight ) * PIXI.ratio)
+    // .endFill();
+    this.box2 = new PIXI.Graphics();
     this.text = new PIXI.Text("小游戏官方组件展示", {
       fontSize: `${34 * PIXI.ratio}px`,
       fill: 0x000
     });
     this.text.position.set(
       (property.width - this.text.width) / 2,
-      63 * PIXI.ratio
+      (statusBarHeight / 2 + titleBarPosition) * PIXI.ratio // 63 * PIXI.ratio
     );
+
     this.box.addChild(this.text);
   }
 
