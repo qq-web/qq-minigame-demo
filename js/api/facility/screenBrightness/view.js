@@ -1,101 +1,73 @@
-import {
-  pText,
-  pLine,
-  pBox,
-  pCircle,
-  pImg,
-  pGoBackBtn
-} from "../../../libs/component/index";
+import { pCircle, pText, pBox } from "../../../libs/component/index";
+import fixedTemplate from "../../../libs/template/fixed";
 
 module.exports = function(PIXI, app, obj, callBack) {
   const container = new PIXI.Container();
-  const goBack = pGoBackBtn(PIXI, "delPage");
-  const title = pText(PIXI, {
-    content: "屏幕亮度",
-    fontSize: 36 * PIXI.ratio,
-    fill: 0x353535,
-    y: 52 * Math.ceil(PIXI.ratio) + 22 * PIXI.ratio,
-    relative_middle: { containerWidth: obj.width }
+  const { goBack, title, apiName, underline, logo } = fixedTemplate(PIXI, {
+    obj,
+    title: "屏幕亮度",
+    apiName: "get/set/ScreenBrightness"
   });
-  const apiName = pText(PIXI, {
-    content: "get/set/ScreenBrightness",
-    fontSize: 32 * PIXI.ratio,
-    fill: 0xbebebe,
-    y: title.height + title.y + 78 * PIXI.ratio,
-    relative_middle: { containerWidth: obj.width }
-  });
-  const underline = pLine(
-    PIXI,
-    {
-      width: PIXI.ratio | 0,
-      color: 0xd8d8d8
-    },
-    [
-      (obj.width - 150 * PIXI.ratio) / 2,
-      apiName.y + apiName.height + 23 * PIXI.ratio
-    ],
-    [150 * PIXI.ratio, 0]
-  );
+  const bottomBg = new PIXI.Graphics();
+  bottomBg
+    .beginFill(0xf5f6fa)
+    .drawRoundedRect(
+      0,
+      underline.y + 60 * PIXI.ratio,
+      app.renderer.view.width,
+      app.renderer.view.height
+    )
+    .endFill();
+
   const div = pBox(PIXI, {
-    height: 474.4 * PIXI.ratio,
+    height: 488 * PIXI.ratio,
+    background: { color: 0xffffff },
     y: underline.y + underline.height + 80 * PIXI.ratio
   });
   const text = pText(PIXI, {
     content: "",
-    fontSize: 72 * PIXI.ratio,
-    y: 225 * PIXI.ratio,
+    fontSize: 80 * PIXI.ratio,
+    y: 188 * PIXI.ratio,
     relative_middle: { containerWidth: div.width }
-  });
-  const logo = pImg(PIXI, {
-    width: 36 * PIXI.ratio,
-    height: 36 * PIXI.ratio,
-    x: 294 * PIXI.ratio,
-    y: obj.height - 66 * PIXI.ratio,
-    src: "images/logo.png"
-  });
-  const logoName = pText(PIXI, {
-    content: "小游戏示例",
-    fontSize: 26 * PIXI.ratio,
-    fill: 0x576b95,
-    y: (obj.height - 62 * PIXI.ratio) | 0,
-    relative_middle: { point: 404 * PIXI.ratio }
   });
 
   div.addChild(
     pText(PIXI, {
       content: "当前屏幕亮度",
       fontSize: 34 * PIXI.ratio,
-      y: 54 * PIXI.ratio,
+      fill: 0x03081e,
+      y: 40 * PIXI.ratio,
       relative_middle: { containerWidth: div.width }
     }),
-    text,
-    pText(PIXI, {
-      content: "设置屏幕亮度",
-      fontSize: 28 * PIXI.ratio,
-      fill: 0x9f9f9f,
-      x: 46 * PIXI.ratio,
-      y: div.height + 36.6 * PIXI.ratio
-    })
+    text
   );
+
+  const controlTips = pText(PIXI, {
+    content: "设置屏幕亮度",
+    fontSize: 28 * PIXI.ratio,
+    fill: 0x878b99,
+    x: 32 * PIXI.ratio,
+    y: div.y + div.height + 32 * PIXI.ratio
+  });
 
   // 滑动调节亮度UI 开始
   const grayLine = pBox(PIXI, {
-    width: 580 * PIXI.ratio,
+    width: 628 * PIXI.ratio,
     height: 4 * PIXI.ratio,
     radius: 2 * PIXI.ratio,
-    background: { color: 0xb5b6b5 },
-    y: div.y + div.height + 49 * PIXI.ratio
+    background: { color: 0xe4e7e4 },
+    y: div.y + div.height + 115 * PIXI.ratio
   });
   const greenLine = pBox(PIXI, {
     width: grayLine.width,
     height: grayLine.height,
     radius: 2 * PIXI.ratio,
-    background: { color: 0x09bb07 },
+    background: { color: 0x00cafc },
     y: grayLine.y
   });
   const circle = pCircle(PIXI, {
     radius: 20 * PIXI.ratio,
-    background: { color: 0x09bb07 },
+    background: { color: 0xffffff },
     x: greenLine.x,
     y: greenLine.y + greenLine.height / 2
   });
@@ -136,12 +108,13 @@ module.exports = function(PIXI, app, obj, callBack) {
     title,
     apiName,
     underline,
+    bottomBg,
     div,
+    controlTips,
     grayLine,
     greenLine,
     circle,
-    logo,
-    logoName
+    logo
   );
   container.interactive = true;
   container.touchend = () => {

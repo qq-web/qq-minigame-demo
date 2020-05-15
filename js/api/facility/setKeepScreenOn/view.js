@@ -1,42 +1,26 @@
-import {
-  pText,
-  pBox,
-  pLine,
-  pImg,
-  pGoBackBtn
-} from "../../../libs/component/index";
+import { pImg, pText, pBox } from "../../../libs/component/index";
+import fixedTemplate from "../../../libs/template/fixed";
 
 module.exports = function(PIXI, app, obj, callBack) {
   const container = new PIXI.Container();
-  const goBack = pGoBackBtn(PIXI, "navigateBack");
-  const title = pText(PIXI, {
-    content: "屏幕常亮",
-    fontSize: 36 * PIXI.ratio,
-    fill: 0x353535,
-    y: 52 * Math.ceil(PIXI.ratio) + 22 * PIXI.ratio,
-    relative_middle: { containerWidth: obj.width }
+  const { goBack, title, apiName, underline, logo } = fixedTemplate(PIXI, {
+    obj,
+    title: "屏幕常亮",
+    apiName: "setKeepScreenOn"
   });
-  const apiName = pText(PIXI, {
-    content: "setKeepScreenOn",
-    fontSize: 32 * PIXI.ratio,
-    fill: 0xbebebe,
-    y: title.height + title.y + 78 * PIXI.ratio,
-    relative_middle: { containerWidth: obj.width }
-  });
-  const underline = pLine(
-    PIXI,
-    {
-      width: PIXI.ratio | 0,
-      color: 0xd8d8d8
-    },
-    [
-      (obj.width - 150 * PIXI.ratio) / 2,
-      apiName.y + apiName.height + 23 * PIXI.ratio
-    ],
-    [150 * PIXI.ratio, 0]
-  );
+  const bottomBg = new PIXI.Graphics();
+  bottomBg
+    .beginFill(0xf5f6fa)
+    .drawRoundedRect(
+      0,
+      underline.y + 60 * PIXI.ratio,
+      app.renderer.view.width,
+      app.renderer.view.height
+    )
+    .endFill();
+
   const div = pBox(PIXI, {
-    height: 89 * PIXI.ratio,
+    height: 112 * PIXI.ratio,
     border: {
       width: PIXI.ratio | 0,
       color: 0xe5e5e5
@@ -45,41 +29,28 @@ module.exports = function(PIXI, app, obj, callBack) {
   });
   const text = pText(PIXI, {
     content: "仅在当前小程序生效\n离开小程序后设置失效",
-    fontSize: 30 * PIXI.ratio,
-    fill: 0x353535,
+    fontSize: 28 * PIXI.ratio,
+    fill: 0x878b99,
     align: "center",
-    lineHeight: 55 * PIXI.ratio,
-    y: div.y + div.height + 71 * PIXI.ratio,
+    lineHeight: 45 * PIXI.ratio,
+    y: div.y + div.height + 56 * PIXI.ratio,
     relative_middle: { containerWidth: obj.width }
-  });
-  const logo = pImg(PIXI, {
-    width: 36 * PIXI.ratio,
-    height: 36 * PIXI.ratio,
-    x: 294 * PIXI.ratio,
-    y: obj.height - 66 * PIXI.ratio,
-    src: "images/logo.png"
-  });
-  const logoName = pText(PIXI, {
-    content: "小游戏示例",
-    fontSize: 26 * PIXI.ratio,
-    fill: 0x576b95,
-    y: (obj.height - 62 * PIXI.ratio) | 0,
-    relative_middle: { point: 404 * PIXI.ratio }
   });
 
   // switch button 开始
   const off = pImg(PIXI, {
-    width: 142 * PIXI.ratio,
-    height: 90 * PIXI.ratio,
+    width: 94 * PIXI.ratio,
+    height: 52 * PIXI.ratio,
     src: "images/off.png",
-    x: div.width - 152 * PIXI.ratio,
+    x: div.width - 126 * PIXI.ratio,
     relative_middle: { containerHeight: div.height }
   });
   const on = pImg(PIXI, {
-    width: 122 * PIXI.ratio,
-    height: 87 * PIXI.ratio,
+    width: 94 * PIXI.ratio,
+    height: 52 * PIXI.ratio,
     src: "images/on.png",
-    x: div.width - 142 * PIXI.ratio
+    x: div.width - 126 * PIXI.ratio,
+    relative_middle: { containerHeight: div.height }
   });
   on.hideFn();
   off.onClickFn(() => {
@@ -108,7 +79,8 @@ module.exports = function(PIXI, app, obj, callBack) {
     pText(PIXI, {
       content: "屏幕常亮",
       fontSize: 34 * PIXI.ratio,
-      x: 30 * PIXI.ratio,
+      color: 0x03081e,
+      x: 32 * PIXI.ratio,
       relative_middle: { containerHeight: div.height }
     }),
     off,
@@ -118,7 +90,6 @@ module.exports = function(PIXI, app, obj, callBack) {
   setTimeout(() => {
     window.router.getNowPage(page => {
       page.reload = function() {
-        logo.turnImg({ src: "images/logo.png" });
         off.turnImg({ src: "images/off.png" });
         on.turnImg({ src: "images/on.png" });
       };
@@ -130,10 +101,10 @@ module.exports = function(PIXI, app, obj, callBack) {
     title,
     apiName,
     underline,
+    bottomBg,
     div,
     text,
-    logo,
-    logoName
+    logo
   );
   container.visible = false;
   app.stage.addChild(container);

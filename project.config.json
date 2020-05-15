@@ -19,7 +19,7 @@
 	"libVersion": "1.9.94",
 	"projectname": "minigame",
 	"qqappid": "1110325033",
-	"qqLibVersion": "1.13.0",
+	"qqLibVersion": "1.14.0",
 	"scripts": {
 		"beforeCompile": "",
 		"beforePreview": "",

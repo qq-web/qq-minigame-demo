@@ -1,22 +1,28 @@
-import view from './view';
-import show from '../../../libs/show';
+import view from "./view";
+
 module.exports = function(PIXI, app, obj) {
-    return view(PIXI, app, obj, data => {
-        let { status, keepScreenOn, drawFn } = data;
-        switch (status) {
-            case 'setKeepScreenOn':
-                // 设置保持常亮状态。
-                qq.setKeepScreenOn({
-                    keepScreenOn,
-                    success(res) {
-                        console.log(res);
+  return view(PIXI, app, obj, data => {
+    const { status, keepScreenOn, drawFn } = data;
+    switch (status) {
+      case "setKeepScreenOn":
+        // 设置保持常亮状态。
+        qq.setKeepScreenOn({
+          keepScreenOn,
+          success(res) {
+            console.log(res);
 
-                        show.Toast(`常亮${keepScreenOn ? '已开启' : '已关闭'}`, 'success', 800);
+            qq.showToast({
+              title: `常亮${keepScreenOn ? "已开启" : "已关闭"}`,
+              icon: "success",
+              duration: 800
+            });
 
-                        drawFn(res); //绘制UI
-                    }
-                });
-                break;
-        }
-    });
+            drawFn(res); // 绘制UI
+          }
+        });
+        break;
+      default:
+        break;
+    }
+  });
 };

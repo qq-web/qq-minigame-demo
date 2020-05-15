@@ -1,19 +1,25 @@
-import view from './view';
-import show from '../../../libs/show';
+import view from "./view";
+
 module.exports = function(PIXI, app, obj) {
-    return view(PIXI, app, obj, data => {
-        let { status, drawFn } = data;
-        switch (status) {
-            case 'getNetworkType':
-                qq.getNetworkType({
-                    success(res) {
-                        drawFn(res);//更新UI
-                    },
-                    fail() {
-                        show.Toast('获取失败', 'success', 500);
-                    }
-                });
-                break;
-        }
-    });
+  return view(PIXI, app, obj, data => {
+    const { status, drawFn } = data;
+    switch (status) {
+      case "getNetworkType":
+        qq.getNetworkType({
+          success(res) {
+            drawFn(res); // 更新UI
+          },
+          fail() {
+            qq.showToast({
+              title: "获取失败",
+              icon: "success",
+              duration: 500
+            });
+          }
+        });
+        break;
+      default:
+        break;
+    }
+  });
 };
