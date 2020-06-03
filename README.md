@@ -6,7 +6,7 @@ QQ小游戏示例源码，欢迎扫描以下小程序码体验。
 
 <br/>
 
-![小程序码](https://github.com/qq-web/qq-minigame-demo/blob/master/images/042fbac0ba1f5bea154ea37b667a1883.png)
+![小程序码](https://github.com/qq-web/qq-minigame-demo/blob/master/images/code.jpeg)
 
 ## 注意
 
