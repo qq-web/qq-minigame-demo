@@ -70,21 +70,21 @@ module.exports = function(PIXI, app, obj, callBack) {
   const playButton = pImg(PIXI, {
     width: 150 * PIXI.ratio,
     src: "images/play.png",
-    is_PIXI_loader: true,
+    // is_PIXI_loader: true,
     x: 300 * PIXI.ratio,
     y: box.y + box.height + 232 * PIXI.ratio
   });
   const stopButton = pImg(PIXI, {
     width: 150 * PIXI.ratio,
     src: "images/stop.png",
-    is_PIXI_loader: true,
+    // is_PIXI_loader: true,
     x: 53 * PIXI.ratio,
     y: playButton.y
   });
   const pauseButton = pImg(PIXI, {
     width: 150 * PIXI.ratio,
     src: "images/pause.png",
-    is_PIXI_loader: true,
+    // is_PIXI_loader: true,
     x: playButton.x,
     y: playButton.y
   });
@@ -191,17 +191,29 @@ module.exports = function(PIXI, app, obj, callBack) {
     const second = currentTime % 60 | 0;
     const minute = (currentTime / 60) | 0;
 
-    timerText.turnText(
-      `00:${minute / 60 < 10 ? `0${minute}` : minute}:${
-        second % 60 < 10 ? `0${second}` : second
-      }`
-    );
+    if (timerText) {
+      timerText.turnText(
+        `00:${minute / 60 < 10 ? `0${minute}` : minute}:${
+          second % 60 < 10 ? `0${second}` : second
+        }`
+      );
+    } else {
+      console.log(`timerText undefined`);
+    }
   }
   // 更新播放时间function 结束
 
   // 创建内部 audio 上下文 InnerAudioContext 对象 开始
   callBack("createInnerAudioContext");
   // 创建内部 audio 上下文 InnerAudioContext 对象 结束
+
+  window.router.getNowPage(page => {
+    page.reload = function() {
+      console.log("reload");
+      playButton.turnImg({ src: "images/play.png" });
+      stopButton.turnImg({ src: "images/stop.png" });
+    };
+  });
 
   box.addChild(
     timerText,

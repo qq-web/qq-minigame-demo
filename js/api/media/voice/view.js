@@ -1,4 +1,4 @@
-import { pCircle, pImg, pText } from "../../../libs/component/index";
+import { pImg, pText } from "../../../libs/component/index";
 import fixedTemplate from "../../../libs/template/fixed";
 
 module.exports = function(PIXI, app, obj, callBack) {
@@ -28,12 +28,18 @@ module.exports = function(PIXI, app, obj, callBack) {
     src: "images/record.png",
     relative_middle: { containerWidth: obj.width }
   });
-  const stopRecordButton = pCircle(PIXI, {
+  /*   const stopRecordButton = pCircle(PIXI, {
     radius: 55 * PIXI.ratio,
     border: { width: 20 * PIXI.ratio, color: 0xff0000 },
     background: { color: 0xf55c23 },
     x: obj.width / 2,
     y: underline.y + underline.height + 358 * PIXI.ratio
+  }); */
+  const stopRecordButton = pImg(PIXI, {
+    width: 150 * PIXI.ratio,
+    y: recordButton.y,
+    src: "images/recording.png",
+    relative_middle: { containerWidth: obj.width }
   });
   const playVoiceButton = pImg(PIXI, {
     width: recordButton.width,
@@ -54,12 +60,13 @@ module.exports = function(PIXI, app, obj, callBack) {
     src: "images/trash.png"
   });
 
+  const clockArr = [];
   let clock;
   let time = 0;
   let playTime = 0;
   let runStopRecord;
   let runStopVoice;
-
+  let i = 0;
   writeTime.hideFn();
 
   // 开始录音 “按钮” 开始
@@ -67,13 +74,16 @@ module.exports = function(PIXI, app, obj, callBack) {
     callBack({
       status: "record",
       drawFn(type) {
+        i = i + 1;
+        console.log(type, i);
         if (type) return recordButton.hideFn();
         stopRecordButton.showFn();
         clock = setInterval(() => {
-          time++;
+          time += 1;
           totalTimeFn(time);
           console.log(Number(new Date()));
         }, 1000);
+        clockArr.push(clock);
         console.log(`current timer id: ${clock}`);
       }
     });
@@ -110,9 +120,10 @@ module.exports = function(PIXI, app, obj, callBack) {
         switch (status) {
           case "play":
             clock = setInterval(() => {
-              playTime++;
+              playTime += 1;
               totalTimeFn(playTime);
             }, 1000);
+            clockArr.push(clock);
             playVoiceButton.hideFn();
             stopVoiceButton.showFn();
             trashButton.setPositionFn({
@@ -198,7 +209,9 @@ module.exports = function(PIXI, app, obj, callBack) {
         .then(timeText => {
           totalTime.turnText(timeText);
         })
-        .catch(err => {});
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 
@@ -226,8 +239,13 @@ module.exports = function(PIXI, app, obj, callBack) {
   qq.onShow(runStopRecord);
   qq.onHide(clearClock);
   function clearClock() {
-    clearInterval(clock);
-    console.log(`clear timer id: ${clock}`);
+    while (clockArr.length > 0) {
+      const c = clockArr.pop();
+      clearInterval(c);
+      console.log(`clear timer id: ${c}`);
+    }
+    // clearInterval(clock);
+    // console.log(`clear timer id: ${clock}`);
   }
 
   goBack.callBack = () => {

@@ -10,6 +10,11 @@ module.exports = function(PIXI, app, obj) {
           data: value,
           success() {
             drawFn(); // 绘制UI
+            qq.showToast({
+              title: "内容已复制",
+              icon: "success",
+              duration: 500
+            });
           }
         });
         break;

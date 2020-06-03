@@ -21,7 +21,7 @@ module.exports = function(PIXI, app, obj, callBack) {
 
   const box = pBox(PIXI, {
     y: underline.y + underline.height + 80 * PIXI.ratio,
-    height: 296
+    height: 296 * PIXI.ratio
   });
   const boxChild = new PIXI.Container();
 
@@ -68,6 +68,7 @@ module.exports = function(PIXI, app, obj, callBack) {
         const imageSrc = res.tempFilePaths[0];
         callBack(imageSrc, bool => {
           if (bool) {
+            PIXI.loader.reset(); // ios版本每次选择同一图片文件名相同。如果重复选择同名图片，不reset会因加载同名资料而出错。
             PIXI.loader.add(imageSrc).load(() => {
               let width;
               let height;

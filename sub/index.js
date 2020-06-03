@@ -61,14 +61,14 @@ function renderData(data, info, title = "排行榜", mock = false, type) {
   }
 
   // mock
-  // if ( mock ) {
-  //     for ( let i = data.length; i < 20; i++ ) {
-  //         data[i] = JSON.parse(JSON.stringify(selfData));
-  //         data[i].rank = i;
-  //         data[i].score = 0;
-  //         data[i].nickname = 'mock__user';
-  //     }
-  // }
+  if (mock) {
+    //     for ( let i = data.length; i < 20; i++ ) {
+    //         data[i] = JSON.parse(JSON.stringify(selfData));
+    //         data[i].rank = i;
+    //         data[i].score = 0;
+    //         data[i].nickname = 'mock__user';
+    //     }
+  }
 
   draw(title, data, selfData, currentMaxScore, type);
 
@@ -152,6 +152,9 @@ function showPotentialFriendList() {
 
       directional(res.list);
       refreshDirected(showPotentialFriendList);
+    },
+    fail(e) {
+      console.log(e);
     }
   });
 }

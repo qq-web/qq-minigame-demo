@@ -1,6 +1,5 @@
 import view from "./view";
 import * as errMsgObj from "../../../errMsg/index";
-import show from "../../../libs/show";
 
 module.exports = function(PIXI, app, obj) {
   let video;
@@ -29,7 +28,10 @@ module.exports = function(PIXI, app, obj) {
             if (e.errMsg.includes(errMsglist[i])) {
               errMsgObj[errMsglist[i]]({
                 callback(err) {
-                  show.Modal(err, "发生错误");
+                  qq.showModal({
+                    content: err,
+                    title: "发生错误"
+                  });
                 }
               });
               break;
@@ -37,16 +39,32 @@ module.exports = function(PIXI, app, obj) {
           }
         });
         video.onEnded(() => {
-          show.Toast("播放结束", "success", 1000);
+          qq.showToast({
+            title: "播放结束",
+            icon: "success",
+            duration: 1000
+          });
         });
         video.onPause(() => {
-          show.Toast("暂停成功", "success", 1000);
+          qq.showToast({
+            title: "暂停成功",
+            icon: "success",
+            duration: 1000
+          });
         });
         video.onPlay(() => {
-          show.Toast("播放成功", "success", 1000);
+          qq.showToast({
+            title: "播放成功",
+            icon: "success",
+            duration: 1000
+          });
         });
         video.onWaiting(() => {
-          show.Toast("视频缓冲中", "success", 1000);
+          qq.showToast({
+            title: "视频缓冲中",
+            icon: "success",
+            duration: 1000
+          });
         });
         break;
       case "destroy": // 销毁当前视频控件

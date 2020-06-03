@@ -17,6 +17,10 @@ module.exports = function(PIXI, app, obj) {
             });
           },
           fail(e) {
+            qq.showModal({
+              title: "解压失败",
+              content: e
+            });
             console.log(e);
           }
         });

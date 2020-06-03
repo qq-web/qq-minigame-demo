@@ -19,18 +19,18 @@ module.exports = function(PIXI, app, obj) {
             drawFn(); // 更新UI
           },
           fail(res) {
+            console.log(res);
             if (!res.errMsg) return;
 
-            if (res.errMsg.includes("fail no such file or directory")) {
+            if (res.errMsg.includes("no such file or directory")) {
               res.errMsg = `源文件，或目录 ${JSON.stringify(
                 `${qq.env.USER_DATA_PATH}/fileA`
               )} 不存在，请去创建`;
-
-              qq.showModal({
-                content: res.errMsg,
-                title: "发生错误"
-              });
             }
+            qq.showModal({
+              content: res.errMsg,
+              title: "发生错误"
+            });
           }
         });
         break;
