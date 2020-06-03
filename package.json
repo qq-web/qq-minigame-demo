@@ -1,9 +1,10 @@
 {
   "name": "minigame-demo",
-  "version": "1.0.0",
+  "version": "1.0.5",
+  "uploadDesc": "增加常规能力",
   "main": "index.js",
-  "repository": "git@git.code.oa.com:QQMiniApp/minigame-demo.git",
-  "author": "fengzhong <fengzhong@tencent.com>",
+  "repository": "git@github.com:jeffinsz/qq-minigame-demo.git",
+  "author": "jeffinsz <jeff.chung@qq.com>",
   "license": "MIT",
   "scripts": {
     "prettier": "prettier --write . !**/node_modules/**",
